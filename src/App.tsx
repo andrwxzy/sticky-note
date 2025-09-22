@@ -6,7 +6,7 @@ const App = () => {
   return (
     <div className="bg-[#f7f9fa]">
       <div className="h-screen mx-auto max-w-[900px] px-2">
-        <h1 className="text-center font-bold text-2xl">Sticky Notes</h1>
+        <h1 className="text-center font-bold text-2xl pt-3">Sticky Notes</h1>
         <NoteComposer />
         <SearchItem />
         <div>

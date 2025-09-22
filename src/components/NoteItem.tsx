@@ -5,7 +5,7 @@ const NoteItem = () => {
   return (
     <div className="p-5 border-2 rounded">
       <div className="flex items-center justify-between">
-        <p>ds</p>
+        <p></p>
         <div className="flex gap-4  ">
           <button className="text-gray-500 cursor-pointer">
             {" "}
