@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-const NoteComposer = () => {
+interface Props {
+  onAdd: (text: string) => void;
+}
+
+const NoteComposer = ({ onAdd }: Props) => {
   const [input, setInput] = useState("");
-  const handleAddNote = () => {};
+  const handleAddNote = () => {
+    onAdd(input);
+    setInput("");
+  };
 
   return (
     <div className="bg-white border border-gray-300 p-4 rounded mt-10">
