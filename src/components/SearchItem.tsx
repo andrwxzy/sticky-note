@@ -1,6 +1,10 @@
-import React from "react";
 import { Search } from "lucide-react";
-const SearchItem = () => {
+type searchProps = {
+  onChange: (value: string) => void;
+  value: string;
+};
+
+const SearchItem = ({ onChange, value }: searchProps) => {
   return (
     <div className="my-5">
       <div className="relative">
@@ -10,8 +14,10 @@ const SearchItem = () => {
         />
         <input
           type="text"
+          value={value}
           placeholder="Search Notes..."
           className="w-full bg-white pl-10 pr-3 py-3 rounded border border-gray-300"
+          onChange={(e) => onChange(e.target.value)}
         />
       </div>
     </div>
