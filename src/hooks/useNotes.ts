@@ -14,6 +14,10 @@ export function useNotes() {
   });
   const [searchItem, setSearchItem] = useState("");
 
+  const colors = ["blue", "red", "green"];
+  const [input, setInput] = useState("");
+  const [color, setColor] = useState(colors[0]);
+
   //   save notes to local storage
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -65,13 +69,33 @@ export function useNotes() {
       return a.isPinned ? -1 : 1;
     });
 
+  // handle button to add a note
+  const handleAddNote = () => {
+    addNote(input, color);
+    setInput("");
+  };
+
+  //  for input
+  const keyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleAddNote();
+    }
+  };
+
   return {
     notes: filterNote,
-    addNote,
     deleteNote,
     editNote,
     pinNote,
     searchItem,
     setSearchItem,
+    handleAddNote,
+    keyDown,
+    input,
+    setColor,
+    setInput,
+    colors,
+    color,
   };
 }

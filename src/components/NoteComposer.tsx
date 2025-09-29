@@ -1,40 +1,39 @@
-import { useState } from "react";
 import { Plus } from "lucide-react";
 interface Props {
-  onAdd: (text: string, color: string) => void;
+  handleAddNote: React.MouseEventHandler<HTMLButtonElement>;
+  value: string;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+  colors: string[];
+  color: string;
+  keyDown: React.KeyboardEventHandler<HTMLElement>;
 }
 
-const NoteComposer = ({ onAdd }: Props) => {
-  const colors = ["blue", "red", "green"];
-  const [input, setInput] = useState("");
-  const [color, setColor] = useState(colors[0]);
-
-  const handleAddNote = () => {
-    onAdd(input, color);
-    setInput("");
-  };
-
+const NoteComposer = ({
+  handleAddNote,
+  value,
+  setColor,
+  setInput,
+  keyDown,
+  colors,
+  color,
+}: Props) => {
   return (
     <div
       className=" border border-gray-300 p-4 rounded mt-10"
       style={{ backgroundColor: `var(--color-${color})` }}
     >
       <textarea
-        value={input}
+        value={value}
         onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleAddNote();
-          }
-        }}
+        onKeyDown={keyDown}
         autoFocus
         maxLength={500}
         placeholder="What's on your mind?"
         className="border border-gray-300 rounded pb-20 pt-3 pl-2 pr-2 w-full wrap-anywhere lg:overflow-hidden"
       />
       <div className="flex items-center justify-between my-2">
-        <p className="text-sm text-gray-500">{input.length}/500</p>
+        <p className="text-sm text-gray-500">{value.length}/500</p>
         <div className="flex gap-1">
           {colors.map((c) => (
             <button
