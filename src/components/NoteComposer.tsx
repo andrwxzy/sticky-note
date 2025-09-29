@@ -2,26 +2,50 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 interface Props {
   onAdd: (text: string, color: string) => void;
+  noteComposerRef: React.RefObject<HTMLDivElement | null>;
+  editingNoteId: number | null;
+  onCancel: () => void;
+  saveEdit: () => void;
+  editingText: string;
+  setEditingText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const NoteComposer = ({ onAdd }: Props) => {
-  const colors = ["blue", "red", "green"];
+const NoteComposer = ({
+  onAdd,
+  noteComposerRef,
+  onCancel,
+  editingNoteId,
+  saveEdit,
+  editingText,
+  setEditingText,
+}: Props) => {
+  const colors = ["yellow", "pink", "green"];
   const [input, setInput] = useState("");
   const [color, setColor] = useState(colors[0]);
 
   const handleAddNote = () => {
-    onAdd(input, color);
-    setInput("");
+    if (editingNoteId !== null) {
+      saveEdit();
+      console.log("the button was cliked");
+    } else {
+      onAdd(input, color);
+      setInput("");
+    }
   };
 
   return (
     <div
       className=" border border-gray-300 p-4 rounded mt-10"
       style={{ backgroundColor: `var(--color-${color})` }}
+      ref={noteComposerRef}
     >
       <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
+        value={editingNoteId !== null ? editingText : input}
+        onChange={(e) =>
+          editingNoteId !== null
+            ? setEditingText(e.target.value)
+            : setInput(e.target.value)
+        }
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -48,15 +72,25 @@ const NoteComposer = ({ onAdd }: Props) => {
           ))}
         </div>
       </div>
-      <button
-        role="button"
-        tabIndex={0}
-        onClick={handleAddNote}
-        className="flex items-center gap-1 cursor-pointer bg-red-700 hover:bg-red-800 text-white rounded-lg text-sm px-5 py-2.5 font-medium"
-      >
-        Add Note
-        <Plus size={18} />
-      </button>
+      <div className="flex items-center gap-3">
+        <button
+          role="button"
+          tabIndex={0}
+          onClick={handleAddNote}
+          className="flex items-center gap-1 cursor-pointer bg-red-700 hover:bg-red-800 text-white rounded-lg text-sm px-5 py-2.5 font-medium"
+        >
+          {editingNoteId !== null ? "Update Note" : "Add Note"}
+          <Plus size={18} />
+        </button>
+        {editingNoteId && (
+          <button
+            className="bg-gray-400 hover:bg-gray-500 text-black rounded-lg px-4 py-2"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </div>
   );
 };

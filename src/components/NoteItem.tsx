@@ -1,17 +1,28 @@
 import { Trash2, SquarePen, Pin } from "lucide-react";
 import type { Note } from "../hooks/useNotes";
+
 type NoteProps = {
   notes: Note[];
   onDelete: (id: number) => void;
   onEdit: (id: number, text: string) => void;
   onPinned: (id: number) => void;
+  startEdit: (note: Note) => void;
 };
 
-const NoteItem = ({ notes, onDelete, onEdit, onPinned }: NoteProps) => {
+const NoteItem = ({
+  notes,
+  onDelete,
+  onEdit,
+  onPinned,
+  startEdit,
+}: NoteProps) => {
   return (
     <>
       {notes.map((note) => (
-        <div className="p-5 border-2 rounded">
+        <div
+          style={{ backgroundColor: note.color }}
+          className="p-5 border-2 rounded"
+        >
           <div
             className={`flex items-center justify-between gap-4 bg-${note.color}-200`}
           >
@@ -37,6 +48,7 @@ const NoteItem = ({ notes, onDelete, onEdit, onPinned }: NoteProps) => {
               </button>
               <button
                 onClick={() => {
+                  startEdit(note);
                   onEdit(note.id, note.text);
                   console.log("the button was clicked");
                   console.log(note.id);

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface Note {
   id: number;
   text: string;
-  color?: string;
+  color: string;
   isPinned: boolean;
 }
 
@@ -14,11 +14,15 @@ export function useNotes() {
   });
   const [searchItem, setSearchItem] = useState("");
 
+  const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
+  const [editingText, setEditingText] = useState("");
+  const noteComposerRef = useRef<HTMLDivElement>(null);
+
   //   save notes to local storage
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
-
+  console.log(notes);
   //   add new note
   const addNote = (text: string, color: string) => {
     if (!text.trim()) return;
@@ -65,6 +69,29 @@ export function useNotes() {
       return a.isPinned ? -1 : 1;
     });
 
+  // edit note
+  const editNoteTest = (note: Note) => {
+    setEditingNoteId(note.id);
+    setEditingText(note.text);
+    noteComposerRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // save edit note
+  const saveEdit = () => {
+    if (!editingNoteId) return;
+    const updateNote = notes.map((note) =>
+      note.id === editingNoteId ? { ...note, text: editingText } : note
+    );
+    setNotes(updateNote);
+    localStorage.setItem("notes", JSON.stringify(updateNote));
+  };
+
+  //cancel edit
+  const cancelEdit = () => {
+    setEditingNoteId(null);
+    setEditingText("");
+  };
+
   return {
     notes: filterNote,
     addNote,
@@ -73,5 +100,12 @@ export function useNotes() {
     pinNote,
     searchItem,
     setSearchItem,
+    noteComposerRef,
+    editNoteTest,
+    editingNoteId,
+    editingText,
+    setEditingText,
+    saveEdit,
+    cancelEdit,
   };
 }
