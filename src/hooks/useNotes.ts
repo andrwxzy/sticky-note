@@ -16,7 +16,7 @@ export function useNotes() {
 
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
-  const noteComposerRef = useRef<HTMLDivElement>(null);
+  const noteComposerRef = useRef<HTMLTextAreaElement | null>(null);
 
   //   save notes to local storage
   useEffect(() => {
@@ -37,11 +37,6 @@ export function useNotes() {
   //  Delete note
   const deleteNote = (id: number) => {
     setNotes((prev) => prev.filter((note) => note.id !== id));
-  };
-
-  const editNote = (id: number, text: string) => {
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, text } : n)));
-    console.log(editNote);
   };
 
   // Toggle pin note
@@ -86,6 +81,12 @@ export function useNotes() {
     localStorage.setItem("notes", JSON.stringify(updateNote));
   };
 
+  const emptyHandle = () => {
+    noteComposerRef.current?.scrollIntoView({ behavior: "smooth" });
+    noteComposerRef.current?.focus();
+    console.log("The button was cliked");
+  };
+
   //cancel edit
   const cancelEdit = () => {
     setEditingNoteId(null);
@@ -96,7 +97,6 @@ export function useNotes() {
     notes: filterNote,
     addNote,
     deleteNote,
-    editNote,
     pinNote,
     searchItem,
     setSearchItem,
@@ -107,5 +107,6 @@ export function useNotes() {
     setEditingText,
     saveEdit,
     cancelEdit,
+    emptyHandle,
   };
 }

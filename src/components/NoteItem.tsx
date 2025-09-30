@@ -4,18 +4,11 @@ import type { Note } from "../hooks/useNotes";
 type NoteProps = {
   notes: Note[];
   onDelete: (id: number) => void;
-  onEdit: (id: number, text: string) => void;
   onPinned: (id: number) => void;
   startEdit: (note: Note) => void;
 };
 
-const NoteItem = ({
-  notes,
-  onDelete,
-  onEdit,
-  onPinned,
-  startEdit,
-}: NoteProps) => {
+const NoteItem = ({ notes, onDelete, onPinned, startEdit }: NoteProps) => {
   return (
     <>
       {notes.map((note) => (
@@ -49,9 +42,6 @@ const NoteItem = ({
               <button
                 onClick={() => {
                   startEdit(note);
-                  onEdit(note.id, note.text);
-                  console.log("the button was clicked");
-                  console.log(note.id);
                 }}
                 className="text-gray-500 hover:text-gray-700 cursor-pointer"
               >
