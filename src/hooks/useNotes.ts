@@ -79,6 +79,7 @@ export function useNotes() {
     );
     setNotes(updateNote);
     localStorage.setItem("notes", JSON.stringify(updateNote));
+    setEditingNoteId(null);
   };
 
   const emptyHandle = () => {

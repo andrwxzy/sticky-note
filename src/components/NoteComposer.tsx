@@ -30,6 +30,7 @@ const NoteComposer = ({
     if (editingNoteId !== null) {
       saveEdit();
       setError(null);
+
       console.log("the button was cliked");
     } else if (input.length < 1) {
       setError(
@@ -40,8 +41,8 @@ const NoteComposer = ({
       );
     } else {
       onAdd(input, color);
-      setInput("");
       setError(null);
+      setInput("");
     }
   };
 
