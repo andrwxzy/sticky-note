@@ -69,6 +69,7 @@ export function useNotes() {
     setEditingNoteId(note.id);
     setEditingText(note.text);
     noteComposerRef.current?.scrollIntoView({ behavior: "smooth" });
+    noteComposerRef.current?.focus();
   };
 
   // save edit note

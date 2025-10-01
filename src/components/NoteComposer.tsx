@@ -24,25 +24,19 @@ const NoteComposer = ({
   const colors = ["yellow", "pink", "green"];
   const [input, setInput] = useState("");
   const [color, setColor] = useState(colors[0]);
-  const [error, setError] = useState<React.JSX.Element | null>(null);
+  const [error, setError] = useState(false);
 
   const handleAddNote = () => {
     if (editingNoteId !== null) {
       saveEdit();
-      setError(null);
-
+      setInput("");
       console.log("the button was cliked");
     } else if (input.length < 1) {
-      setError(
-        <span className="flex text-sm text-red-500">
-          <TriangleAlert color="white" fill="red" size={19} />
-          Please enter a Note.
-        </span>
-      );
+      setError(!error);
     } else {
       onAdd(input, color);
-      setError(null);
       setInput("");
+      setError(!error);
     }
   };
 
@@ -68,9 +62,16 @@ const NoteComposer = ({
         autoFocus
         maxLength={500}
         placeholder="What's on your mind?"
-        className="border border-gray-300 rounded pb-20 pt-3 pl-2 pr-2 w-full wrap-anywhere lg:overflow-hidden"
+        className={`border ${
+          error ? "border-red-500" : "border-gray-300"
+        } rounded pb-20 pt-3 pl-2 pr-2 w-full wrap-anywhere lg:overflow-hidden`}
       />
-      <div>{error}</div>
+      {error && (
+        <div className="flex text-sm text-red-500">
+          <TriangleAlert color="white" fill="red" size={19} />
+          Please enter a Note.
+        </div>
+      )}
       <div className="flex items-center justify-between my-2">
         <p className="text-sm text-gray-500">{input.length}/500</p>
         <div className="flex gap-1">
