@@ -3,5 +3,24 @@
 @theme {
   --color-yellow: #fff9c4;
   --color-pink: #f8bbd0;
-  --color-green: #c8e6c9;
+  --color-coral: #ffab91;
+}
+
+.ProseMirror ul {
+  @apply list-disc ml-5;
+}
+
+.ProseMirror {
+  @apply h-20 p-2;
+}
+
+.isActive {
+  @apply bg-gray-200 p-2;
+}
+
+.ProseMirror p::before {
+  @apply text-gray-400;
+  content: attr(data-placeholder);
+  pointer-events: none;
+  height: 0;
 }

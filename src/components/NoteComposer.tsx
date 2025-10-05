@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Plus, TriangleAlert } from "lucide-react";
+import {
+  Plus,
+  TriangleAlert,
+  Bold,
+  Italic,
+  List,
+  Underline,
+  Strikethrough,
+} from "lucide-react";
 
 interface Props {
   onAdd: (text: string, color: string) => void;
@@ -25,6 +33,7 @@ const NoteComposer = ({
   const [input, setInput] = useState("");
   const [color, setColor] = useState(colors[0]);
   const [error, setError] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleAddNote = () => {
     if (editingNoteId !== null) {
@@ -32,11 +41,12 @@ const NoteComposer = ({
       setInput("");
       console.log("the button was cliked");
     } else if (input.length < 1) {
-      setError(!error);
+      setError(true);
     } else {
       onAdd(input, color);
       setInput("");
-      setError(!error);
+      setError(false);
+      console.log("the button was cliked");
     }
   };
 
@@ -48,6 +58,8 @@ const NoteComposer = ({
       <textarea
         ref={noteComposerRef}
         value={editingNoteId !== null ? editingText : input}
+        onFocus={() => setShow(true)}
+        onBlur={() => setShow(false)}
         onChange={(e) =>
           editingNoteId !== null
             ? setEditingText(e.target.value)
@@ -66,6 +78,25 @@ const NoteComposer = ({
           error ? "border-red-500" : "border-gray-300"
         } rounded pb-20 pt-3 pl-2 pr-2 w-full wrap-anywhere lg:overflow-hidden`}
       />
+      {show && (
+        <div className="*:cursor-pointer flex gap-2 ">
+          <button>
+            <Bold size={18} />
+          </button>
+          <button>
+            <Italic size={18} />
+          </button>
+          <button>
+            <Underline size={18} />
+          </button>
+          <button>
+            <Strikethrough size={18} />
+          </button>
+          <button>
+            <List size={18} />
+          </button>
+        </div>
+      )}
       {error && (
         <div className="flex text-sm text-red-500">
           <TriangleAlert color="white" fill="red" size={19} />

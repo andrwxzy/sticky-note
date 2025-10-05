@@ -1,5 +1,6 @@
 import Empty from "./components/Empty";
 import NoteComposer from "./components/NoteComposer";
+import NoteComposerr from "./components/NoteComposerr";
 import NoteItem from "./components/NoteItem";
 import SearchItem from "./components/SearchItem";
 import { useNotes } from "./hooks/useNotes";
@@ -26,7 +27,7 @@ const App = () => {
     <div className="bg-[#f7f9fa] min-h-screen">
       <div className="mx-auto max-w-[900px] px-2">
         <h1 className="text-center font-bold text-2xl pt-3">Sticky Notes</h1>
-        <NoteComposer
+        {/* <NoteComposer
           onAdd={addNote}
           noteComposerRef={noteComposerRef}
           onCancel={cancelEdit}
@@ -34,7 +35,8 @@ const App = () => {
           saveEdit={saveEdit}
           editingText={editingText}
           setEditingText={setEditingText}
-        />
+        /> */}
+        <NoteComposerr />
         <SearchItem value={searchItem} onChange={setSearchItem} />
         {notes.length > 0 ? (
           <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 pb-2">
