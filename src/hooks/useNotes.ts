@@ -16,7 +16,11 @@ export function useNotes() {
 
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
-  const noteComposerRef = useRef<HTMLTextAreaElement | null>(null);
+  const noteComposerRef = useRef<HTMLDivElement | null>(null);
+
+  const [input, setInput] = useState("");
+  const colors = ["yellow", "pink", "coral"];
+  const [color, setColor] = useState(colors[0]);
 
   //   save notes to local storage
   useEffect(() => {
@@ -24,16 +28,29 @@ export function useNotes() {
   }, [notes]);
   console.log(notes);
   //   add new note
-  const addNote = (text: string, color: string) => {
-    if (!text.trim()) return;
+  // const addNote = (text: string, color: string) => {
+  //   if (!text.trim()) return;
+  //   const newNote: Note = {
+  //     id: Date.now(),
+  //     text,
+  //     isPinned: false,
+  //     color,
+  //   };
+  //   setNotes((prev) => [...prev, newNote]);
+  // };
+
+  const handleAddNote = (html: string) => {
+    if (!html.trim()) return;
     const newNote: Note = {
       id: Date.now(),
-      text,
+      text: html,
       isPinned: false,
       color,
     };
     setNotes((prev) => [...prev, newNote]);
+    console.log("the button was cliked");
   };
+
   //  Delete note
   const deleteNote = (id: number) => {
     setNotes((prev) => prev.filter((note) => note.id !== id));
@@ -70,17 +87,20 @@ export function useNotes() {
     setEditingText(note.text);
     noteComposerRef.current?.scrollIntoView({ behavior: "smooth" });
     noteComposerRef.current?.focus();
+    console.log("the button was cliked");
   };
 
   // save edit note
-  const saveEdit = () => {
+  const saveEdit = (updatedHTML: string) => {
     if (!editingNoteId) return;
     const updateNote = notes.map((note) =>
-      note.id === editingNoteId ? { ...note, text: editingText } : note
+      note.id === editingNoteId ? { ...note, text: updatedHTML } : note
     );
     setNotes(updateNote);
     localStorage.setItem("notes", JSON.stringify(updateNote));
     setEditingNoteId(null);
+    setEditingText("");
+    setInput("");
   };
 
   const emptyHandle = () => {
@@ -97,7 +117,6 @@ export function useNotes() {
 
   return {
     notes: filterNote,
-    addNote,
     deleteNote,
     pinNote,
     searchItem,
@@ -110,5 +129,11 @@ export function useNotes() {
     saveEdit,
     cancelEdit,
     emptyHandle,
+    handleAddNote,
+    color,
+    setColor,
+    colors,
+    input,
+    setInput,
   };
 }

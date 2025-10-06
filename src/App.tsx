@@ -1,5 +1,5 @@
 import Empty from "./components/Empty";
-import NoteComposer from "./components/NoteComposer";
+// import NoteComposer from "./components/NoteComposer";
 import NoteComposerr from "./components/NoteComposerr";
 import NoteItem from "./components/NoteItem";
 import SearchItem from "./components/SearchItem";
@@ -8,7 +8,6 @@ import { useNotes } from "./hooks/useNotes";
 const App = () => {
   const {
     notes,
-    addNote,
     deleteNote,
     pinNote,
     searchItem,
@@ -18,9 +17,15 @@ const App = () => {
     cancelEdit,
     editingNoteId,
     saveEdit,
-    editingText,
-    setEditingText,
+    // editingText,
+    // setEditingText,
     emptyHandle,
+    handleAddNote,
+    color,
+    setColor,
+    colors,
+    input,
+    setInput,
   } = useNotes();
 
   return (
@@ -36,7 +41,18 @@ const App = () => {
           editingText={editingText}
           setEditingText={setEditingText}
         /> */}
-        <NoteComposerr />
+        <NoteComposerr
+          handleAddNote={handleAddNote}
+          colors={colors}
+          color={color}
+          setColor={setColor}
+          input={input}
+          setInput={setInput}
+          noteComposerRef={noteComposerRef}
+          editingNoteId={editingNoteId}
+          onCancel={cancelEdit}
+          handleUpdateNote={saveEdit}
+        />
         <SearchItem value={searchItem} onChange={setSearchItem} />
         {notes.length > 0 ? (
           <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 pb-2">

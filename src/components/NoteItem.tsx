@@ -13,17 +13,17 @@ const NoteItem = ({ notes, onDelete, onPinned, startEdit }: NoteProps) => {
     <>
       {notes.map((note) => (
         <div
+          key={note.id}
           style={{ backgroundColor: note.color }}
           className="p-5 border-2 rounded"
         >
           <div
             className={`flex items-center justify-between gap-4 bg-${note.color}-200`}
           >
-            <ul>
-              <li className="break-all" key={note.id}>
-                {note.text}
-              </li>
-            </ul>
+            <div
+              className="prose break-all"
+              dangerouslySetInnerHTML={{ __html: note.text }}
+            />
             <div className="flex gap-4">
               <button
                 onClick={() => {
