@@ -79,6 +79,7 @@ const NoteComposerr = ({
     }
   }, [editor, input]);
 
+  console.log(renderCount);
   return (
     <div
       style={{ backgroundColor: color }}
